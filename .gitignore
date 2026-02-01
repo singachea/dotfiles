@@ -1,0 +1,18 @@
+# macOS
+.DS_Store
+
+# Claude Code - Sensitive/machine-specific files (DON'T SYNC)
+claude/anthropic_key.sh
+claude/.claude.json*
+claude/history.jsonl
+claude/projects/
+claude/cache/
+claude/session-env/
+claude/stats-cache.json
+claude/debug/
+claude/plans/
+claude/plugins/
+claude/shell-snapshots/
+claude/statsig/
+claude/telemetry/
+claude/todos/

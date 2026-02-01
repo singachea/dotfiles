@@ -1,0 +1,15 @@
+{
+  "permissions": {
+    "allow": [
+      "mcp__acp__Bash",
+      "mcp__acp__Read",
+      "mcp__acp__Glob",
+      "mcp__acp__Grep",
+      "mcp__acp__Edit",
+      "mcp__acp__Write",
+      "mcp__acp__Task",
+      "mcp__acp__WebFetch",
+      "mcp__acp__WebSearch"
+    ]
+  }
+}
