@@ -1,0 +1,19 @@
+{
+  "version": 2,
+  "plugins": {
+    "superpowers@claude-plugins-official": [
+      {
+        "scope": "user",
+        "installPath": "/Users/tester/.claude/plugins/cache/claude-plugins-official/superpowers/6.1.0",
+        "version": "6.1.0"
+      }
+    ],
+    "ponytail@ponytail": [
+      {
+        "scope": "user",
+        "installPath": "/Users/tester/.claude/plugins/cache/ponytail/ponytail/4.8.4",
+        "version": "4.8.4"
+      }
+    ]
+  }
+}

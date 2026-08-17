@@ -1,0 +1,18 @@
+plugins:
+    claude:
+        - claude-md-management@claude-plugins-official
+        - cli-printing-press@cli-printing-press
+        - code-simplifier@claude-plugins-official
+        - commit-commands@claude-plugins-official
+        - frontend-design@claude-plugins-official
+        - ponytail@ponytail
+        - ruflo-autopilot@ruflo
+        - ruflo-core@ruflo
+        - ruflo-federation@ruflo
+        - ruflo-swarm@ruflo
+        - rust-analyzer-lsp@claude-plugins-official
+        - superpowers@claude-plugins-official
+        - typescript-lsp@claude-plugins-official
+    grok:
+        - cloudflare
+        - ponytail

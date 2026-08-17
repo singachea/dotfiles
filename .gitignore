@@ -1,6 +1,9 @@
 # macOS
 .DS_Store
 
+/bin/
+.kit/local
+
 # Claude Code - Sensitive/machine-specific files (DON'T SYNC)
 claude/anthropic_key.sh
 claude/.claude.json*

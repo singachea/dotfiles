@@ -1,0 +1,12 @@
+[models]
+default = "grok-4"
+
+[[marketplace.sources]]
+name = "xAI Official"
+git = "https://github.com/xai-org/plugin-marketplace.git"
+
+[plugins]
+enabled = [
+    "ponytail",
+    "cloudflare",
+]

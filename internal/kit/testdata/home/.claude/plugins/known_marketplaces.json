@@ -1,0 +1,23 @@
+{
+  "claude-plugins-official": {
+    "source": {
+      "source": "github",
+      "repo": "anthropics/claude-plugins-official"
+    },
+    "installLocation": "/Users/tester/.claude/plugins/marketplaces/claude-plugins-official"
+  },
+  "ponytail": {
+    "source": {
+      "source": "github",
+      "repo": "DietrichGebert/ponytail"
+    },
+    "installLocation": "/Users/tester/.claude/plugins/marketplaces/ponytail"
+  },
+  "cli-printing-press": {
+    "source": {
+      "source": "directory",
+      "path": "/Users/tester/.claude/plugins/manual/cli-printing-press"
+    },
+    "installLocation": "/Users/tester/.claude/plugins/manual/cli-printing-press"
+  }
+}

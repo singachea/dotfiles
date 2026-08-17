@@ -4,18 +4,26 @@ This file provides guidance to Claude Code when setting up dotfiles on a new mac
 
 ## Purpose
 
-This repository contains personal configuration files synced across multiple machines via Git. Files are symlinked from their expected locations (e.g., `~/.claude/settings.json`) to this repo, enabling version control and automatic syncing.
+This repository is the kit for AI coding-tool config. The `kit` CLI
+(`cmd/kit`) reads live agent homes and explains drift. Do not invent a
+second sync tool; extend `kit`.
+
+When the user asks for status of plugins/skills across machines, run:
+
+```bash
+~/dotfiles/bin/kit status --root ~/dotfiles
+# or kit board --no-open
+```
 
 ## Repository Structure
 
 ```
 ~/dotfiles/
-├── CLAUDE.md                    # This file - instructions for Claude
-├── README.md                    # Human-readable documentation
-├── .gitignore                   # Excludes sensitive/machine-specific files
-└── claude/
-    ├── settings.json            # Global Claude Code settings (plugins, API helper)
-    └── settings.local.json      # Permissions and local overrides
+├── cmd/kit/                     # kit CLI
+├── internal/kit/                # scan, findings, text, board
+├── claude/                      # legacy Claude settings copies
+├── CLAUDE.md
+└── README.md
 ```
 
 ## What's Tracked vs Ignored

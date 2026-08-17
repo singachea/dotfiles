@@ -1,0 +1,199 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>kit — {{.ProfileLabel}}</title>
+<style>
+  :root {
+    --bg: #f6f5f2;
+    --card: #fff;
+    --ink: #1c1c1c;
+    --mute: #6b6b6b;
+    --line: #e4e2dc;
+    --accent: #1c1c1c;
+    --warn: #9a5b12;
+    --err: #a3261f;
+    --ok: #2b6b3a;
+    --chip: #eeebe4;
+  }
+  * { box-sizing: border-box; }
+  html, body { margin: 0; background: var(--bg); color: var(--ink);
+    font: 15px/1.5 -apple-system, BlinkMacSystemFont, "Segoe UI", Helvetica, Arial, sans-serif; }
+  code, .mono, table { font-family: ui-monospace, SFMono-Regular, Menlo, Consolas, monospace; }
+  header { max-width: 960px; margin: 0 auto; padding: 28px 24px 0; }
+  h1 { font-size: 20px; font-weight: 600; margin: 0 0 4px; letter-spacing: -0.01em; }
+  .sub { color: var(--mute); margin: 0 0 18px; font-size: 14px; }
+  nav { display: flex; gap: 4px; flex-wrap: wrap; border-bottom: 1px solid var(--line); }
+  nav button { appearance: none; background: none; border: 0; border-bottom: 2px solid transparent;
+    padding: 8px 12px; margin-bottom: -1px; font: inherit; color: var(--mute); cursor: pointer; }
+  nav button[aria-selected="true"] { color: var(--ink); border-bottom-color: var(--ink); font-weight: 600; }
+  main { max-width: 960px; margin: 0 auto; padding: 20px 24px 64px; }
+  .tab { display: none; }
+  .tab.active { display: block; }
+  ol.steps { margin: 0; padding: 0; list-style: none; }
+  ol.steps li { background: var(--card); border: 1px solid var(--line); padding: 14px 16px; margin: 0 0 10px; }
+  ol.steps .n { color: var(--mute); font-size: 12px; margin-right: 8px; }
+  ol.steps h2 { display: inline; font-size: 15px; font-weight: 600; }
+  ol.steps p { margin: 6px 0 0; color: var(--mute); font-size: 14px; }
+  ol.steps code { display: inline-block; margin-top: 8px; background: var(--chip); padding: 3px 7px; font-size: 13px; }
+  .items { margin: 8px 0 0; color: var(--mute); font-size: 13px; }
+  .later { margin-top: 28px; }
+  .later h2 { font-size: 14px; font-weight: 600; color: var(--mute); margin: 0 0 8px; }
+  .later li { margin: 0 0 6px; color: var(--mute); }
+  table { width: 100%; border-collapse: collapse; font-size: 13px; background: var(--card); }
+  th, td { text-align: left; padding: 8px 10px; border-bottom: 1px solid var(--line); vertical-align: middle; }
+  th { color: var(--mute); font-weight: 500; font-size: 12px; }
+  .jack { display: inline-flex; align-items: center; justify-content: center; min-width: 22px; height: 20px;
+    border: 1px solid var(--line); background: var(--card); color: var(--mute); font-size: 11px; cursor: pointer; }
+  .jack.dir { background: var(--chip); color: var(--ink); }
+  .jack.link { border-color: var(--ok); color: var(--ok); }
+  .jack.miss { opacity: 0.35; cursor: default; }
+  .jack.break { background: var(--err); color: #fff; border-color: var(--err); }
+  .jack.drift { border-color: var(--warn); color: var(--warn); }
+  .hint { color: var(--mute); font-size: 13px; margin: 0 0 12px; }
+  .flag { font-size: 11px; background: var(--chip); padding: 1px 6px; margin-right: 4px; color: var(--mute); }
+  .flag.bad { background: #f4e8d8; color: var(--warn); }
+  .detail { display: none; margin-top: 10px; padding: 10px 12px; background: var(--card); border: 1px solid var(--line);
+    white-space: pre-wrap; font-size: 12px; color: var(--mute); }
+  .detail.show { display: block; }
+  .empty { color: var(--ok); }
+</style>
+</head>
+<body>
+<header>
+  <h1>kit</h1>
+  <p class="sub">{{.ProfileLabel}} · {{.AgentCount}} agents · {{.GitLine}} · {{.Summary.Warnings}} warnings</p>
+  <nav role="tablist">
+    <button type="button" role="tab" aria-selected="true" data-tab="next">Do next</button>
+    <button type="button" role="tab" aria-selected="false" data-tab="skills">Skills</button>
+    <button type="button" role="tab" aria-selected="false" data-tab="plugins">Plugins</button>
+    <button type="button" role="tab" aria-selected="false" data-tab="settings">Settings</button>
+  </nav>
+</header>
+<main>
+  <section id="tab-next" class="tab active">
+    {{if .Next}}
+    <ol class="steps">
+      {{range .Next}}
+      <li>
+        <span class="n">{{.Rank}}</span>
+        <h2>{{.Title}}</h2>
+        <p>{{.Why}}</p>
+        <code>{{.Do}}</code>
+        {{if .Items}}<div class="items">{{join .Items ", "}}</div>{{end}}
+      </li>
+      {{end}}
+    </ol>
+    {{else}}
+    <p class="empty">Nothing to do. Live homes match the kit.</p>
+    {{end}}
+    {{if .Later}}
+    <div class="later">
+      <h2>Later / ignore</h2>
+      <ul>
+        {{range .Later}}<li>{{.Title}}</li>{{end}}
+      </ul>
+    </div>
+    {{end}}
+  </section>
+
+  <section id="tab-skills" class="tab">
+    <p class="hint">D = copy in the agent home. L = symlink. ~ = different SKILL.md. · = missing. Click a cell for the path.</p>
+    <table>
+      <thead>
+        <tr>
+          <th>skill</th>
+          <th>kit</th>
+          {{range .PresentIDs}}<th>{{.}}</th>{{end}}
+        </tr>
+      </thead>
+      <tbody>
+        {{range .Skills}}
+        <tr>
+          <td>{{.Name}}</td>
+          <td>{{if .InRepo}}yes{{else}}—{{end}}</td>
+          {{range .Copies}}
+          <td><button class="jack patch-cell {{.Class}}" type="button" data-detail="{{.Detail}}">{{.Mark}}</button></td>
+          {{end}}
+        </tr>
+        {{end}}
+      </tbody>
+    </table>
+    <div id="detail" class="detail"></div>
+  </section>
+
+  <section id="tab-plugins" class="tab">
+    <table>
+      <thead><tr><th>agent</th><th>plugin</th><th>state</th></tr></thead>
+      <tbody>
+      {{range .Plugins}}
+        <tr>
+          <td>{{.Agent}}</td>
+          <td>{{.ID}}</td>
+          <td>
+            {{if .Enabled}}<span class="flag">on</span>{{else}}<span class="flag">off</span>{{end}}
+            {{if .Installed}}<span class="flag">installed</span>{{else}}<span class="flag bad">missing</span>{{end}}
+            {{if .InManifest}}<span class="flag">in kit</span>{{else}}<span class="flag bad">not in kit</span>{{end}}
+            {{if not .Portable}}<span class="flag bad">local path</span>{{end}}
+          </td>
+        </tr>
+      {{end}}
+      </tbody>
+    </table>
+  </section>
+
+  <section id="tab-settings" class="tab">
+    <h2 style="font-size:14px;font-weight:600;margin:0 0 8px">Files</h2>
+    <table>
+      <thead><tr><th>agent</th><th>file</th><th>link</th><th>path</th></tr></thead>
+      <tbody>
+      {{range .Settings}}
+        <tr>
+          <td>{{.Agent}}</td>
+          <td>{{.File}}</td>
+          <td>{{if .Linked}}symlink{{else}}file{{end}}{{if .Drift}} · drifted{{end}}</td>
+          <td>{{.Live}}</td>
+        </tr>
+      {{end}}
+      </tbody>
+    </table>
+    <h2 style="font-size:14px;font-weight:600;margin:24px 0 8px">Marketplaces &amp; MCP</h2>
+    <table>
+      <thead><tr><th></th><th>agent</th><th>name</th><th>source</th></tr></thead>
+      <tbody>
+      {{range .Marketplaces}}
+        <tr>
+          <td>marketplace</td><td>{{.Agent}}</td><td>{{.Name}}</td>
+          <td>{{.Source}}{{if not .Portable}} · local{{end}}</td>
+        </tr>
+      {{end}}
+      {{range .MCP}}
+        <tr>
+          <td>mcp</td><td>{{.Agent}}</td><td>{{.Name}}</td>
+          <td>{{if .Command}}{{.Command}}{{else}}{{.URL}}{{end}}{{if not .Portable}} · local{{end}}</td>
+        </tr>
+      {{end}}
+      </tbody>
+    </table>
+  </section>
+</main>
+<script>
+  document.querySelectorAll("nav [data-tab]").forEach(function (btn) {
+    btn.addEventListener("click", function () {
+      document.querySelectorAll("nav [data-tab]").forEach(function (b) { b.setAttribute("aria-selected", "false"); });
+      document.querySelectorAll(".tab").forEach(function (t) { t.classList.remove("active"); });
+      btn.setAttribute("aria-selected", "true");
+      document.getElementById("tab-" + btn.getAttribute("data-tab")).classList.add("active");
+    });
+  });
+  document.querySelectorAll(".patch-cell").forEach(function (el) {
+    el.addEventListener("click", function () {
+      var d = document.getElementById("detail");
+      d.textContent = el.getAttribute("data-detail") || "";
+      d.classList.add("show");
+    });
+  });
+</script>
+</body>
+</html>

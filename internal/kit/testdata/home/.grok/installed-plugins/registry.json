@@ -1,0 +1,16 @@
+{
+  "version": 1,
+  "repos": {
+    "ponytail-abc": {
+      "kind": {
+        "type": "Git",
+        "url": "https://github.com/DietrichGebert/ponytail",
+        "commit": "deadbeef"
+      },
+      "path": "/Users/tester/.grok/installed-plugins/ponytail-abc",
+      "plugins": {
+        "ponytail": {}
+      }
+    }
+  }
+}

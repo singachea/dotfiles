@@ -1,0 +1,5 @@
+model = "gpt-5.3-codex"
+
+[mcp_servers.codedb]
+command = "/Users/tester/bin/codedb"
+args = ["mcp"]
