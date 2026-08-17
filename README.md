@@ -6,28 +6,32 @@ knows about.
 
 ## Install kit
 
-Needs Go (`go version`). The binary lands at `~/bin/kit`.
-
-**This machine already has the repo:**
+Needs Go (`go version`). Do **not** use `go get` — that adds a library
+dependency. For a CLI:
 
 ```bash
-cd ~/dotfiles && make install
+go install github.com/singachea/dotfiles/cmd/kit@mainline
 ```
 
-**New machine:**
+That puts `kit` in `$(go env GOPATH)/bin` (usually `~/go/bin`). Put that
+on your PATH if needed:
+
+```bash
+echo 'export PATH="$(go env GOPATH)/bin:$PATH"' >> ~/.zshrc && source ~/.zshrc
+```
+
+`go install` only installs the binary. Skills, plugins, and settings live
+in this repo, so a new machine still needs a checkout kit can find
+(default `~/dotfiles`):
 
 ```bash
 git clone git@github.com:singachea/dotfiles.git ~/dotfiles
-cd ~/dotfiles && make install
 ```
 
-If `kit` is not found, put `~/bin` on your PATH (zsh):
+If the repo is already at `~/dotfiles`, skip the clone. Then `kit` and
+`kit doctor`.
 
-```bash
-echo 'export PATH="$HOME/bin:$PATH"' >> ~/.zshrc && source ~/.zshrc
-```
-
-Check: `kit` should print help. Then `kit profile personal` (or `work`) and `kit doctor`.
+`make install` still works if you prefer a local build into `~/bin/kit`.
 
 ## Daily commands
 
